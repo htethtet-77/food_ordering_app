@@ -1,32 +1,23 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import React from "react";
-import { CustomButtonProps } from "@/type";
-import cn from "clsx";
+import {View, Text, TouchableOpacity, Image} from 'react-native'
+import React from 'react'
+import {images} from "@/constants";
+import {useCartStore} from "@/store/cart.store";
+import {router} from "expo-router";
 
-const CustomButton = ({
-  onPress,
-  title = "Click Me",
-  style,
-  textStyle,
-  leftIcon,
-  isLoading = false,
-}: CustomButtonProps) => {
-  return (
-    <TouchableOpacity className={cn("custom-btn", style)} onPress={onPress}>
-      {leftIcon}
+const CartButton = () => {
+    const { getTotalItems } = useCartStore();
+    const totalItems = getTotalItems();
 
-      <View className="flex-center flex-row">
-        {isLoading ? (
-          <ActivityIndicator size="small" color="white" />
-        ) : (
-          <Text
-            className={cn("text-white-100 paragraph-semibold", textStyle)}
-          >{title}</Text>
-        )}
-      </View>
-     
-    </TouchableOpacity>
-  );
-};
+    return (
+        <TouchableOpacity className="cart-btn" onPress={()=> router.push('/cart')}>
+            <Image source={images.bag} className="size-5" resizeMode="contain" />
 
-export default CustomButton;
+            {totalItems > 0 && (
+                <View className="cart-badge">
+                    <Text className="small-bold text-white">{totalItems}</Text>
+                </View>
+            )}
+        </TouchableOpacity>
+    )
+}
+export default CartButton
