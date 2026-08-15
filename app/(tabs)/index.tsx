@@ -6,13 +6,17 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import { offers, images } from "@/constants/index";
 import { Fragment } from "react";
 import cn from "clsx";
 import CardButton from "@/components/CardButton";
+import useAuthStore from "@/store/auth.store";
 
 export default function Index() {
+  const {user}=useAuthStore();
+  // console.log("User:",JSON.stringify(user,null,2));
   return (
     <SafeAreaView className="flex-1 bg-white">
       <FlatList
@@ -45,7 +49,7 @@ export default function Index() {
                         isEven ? "pl-10" : "pr-10",
                       )}
                     >
-                      <Text className="h1-bold text-white leading-tight" >
+                      <Text className="h2-bold text-white leading-tight" >
                         {item.title}
                       </Text>
                       <Image
@@ -80,6 +84,7 @@ export default function Index() {
             <CardButton />
           </View>
         )}
+      
       />
     </SafeAreaView>
   );
